@@ -1,19 +1,18 @@
-const express = require('express');
+const express = require("express");
 const {
-  createEvent,
   getEvents,
+  createEvent,
   updateEvent,
   deleteEvent,
-} = require('../controllers/eventController');
+} = require("../controllers/eventController");
+const { protect } = require("../middleware/authMiddleware");
 
 const router = express.Router();
 
-router.route('/')
-  .post(createEvent)
-  .get(getEvents);
-
-router.route('/:id')
-  .put(updateEvent)
-  .delete(deleteEvent);
+router.route("/").get(protect, getEvents).post(protect, createEvent);
+router
+  .route("/:id")
+  .put(protect, updateEvent)
+  .delete(protect, deleteEvent);
 
 module.exports = router;
